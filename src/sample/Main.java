@@ -12,14 +12,11 @@ import java.util.List;
 
  public class Main extends Application {
 
-
-
     private Scene scene;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
 
         LoginOrSignUpGUI ls = new LoginOrSignUpGUI();
 
@@ -93,12 +90,7 @@ import java.util.List;
 //
 //        primaryStage.setScene(scene);
 //
-//
-//
 //        //JavaFX must have a Scene (window content) inside a Stage (window)
-//
-//
-//
 //
 //
 //        //Show the Stage (window)

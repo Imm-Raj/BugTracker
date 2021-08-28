@@ -12,6 +12,7 @@ public class ProjectEditableInfoDisplay extends EditableInfoDisplay {
     private Label projectDescriptionLabel;              private EditableLabel projectDescriptionLabelEditable;
     private Label projectCreatedByLabel;                private Label projectCreatedByLabelInfo;
     private Label projectDateCreatedLabel;               private Label projectDateCreatedLabelInfo;
+    private Label projectIDLabel;               private Label projectIDInfo;
 
     public ProjectEditableInfoDisplay(GridPane gridPaneToDisplayOn, CentralViewState statePageToGoBackTo, Project projectToDisplay, String title) {
         super(gridPaneToDisplayOn, statePageToGoBackTo, title);
@@ -26,10 +27,11 @@ public class ProjectEditableInfoDisplay extends EditableInfoDisplay {
         projectDescriptionLabel = new Label("Description: ");  projectDescriptionLabelEditable = new EditableLabel(project.getDescription());
         projectCreatedByLabel = new Label("Created By: ");     projectCreatedByLabelInfo = new Label(project.getCreatedBy().getFirstName() + " " +  project.getCreatedBy().getLastName());
         projectDateCreatedLabel = new Label("Date Created: "); projectDateCreatedLabelInfo = new Label(project.getDateCreated().toString());
-        
-        addTitleLabels(projectNameLabel, projectDescriptionLabel,projectCreatedByLabel, projectDateCreatedLabel);
+            projectIDLabel = new Label("Project ID: ");   projectIDInfo = new Label(project.getProjectID());
+
+        addTitleLabels(projectNameLabel, projectDescriptionLabel,projectCreatedByLabel, projectDateCreatedLabel, projectIDLabel);
         addEditableLabels(projectNameEditable, projectDescriptionLabelEditable);
-        addInfoLabels(projectCreatedByLabelInfo, projectDateCreatedLabelInfo);
+        addInfoLabels(projectCreatedByLabelInfo, projectDateCreatedLabelInfo, projectIDInfo);
 
         buildEditableInfoDisplay();
 
