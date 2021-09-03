@@ -8,13 +8,11 @@ import java.util.List;
  * based on the list of ID string stored within the account
  * converts them into Display Components
  */
-public class AccountExtractor {
+public class AccountExtractor extends Extractor {
 
     private Account sourceAccount; // The account from which items will be extracted
 
     private AllCreatedProjects allCreatedProjects;
-
-
 
 
     public AccountExtractor(Account sourceAccount) {
@@ -60,7 +58,6 @@ public class AccountExtractor {
     }
 
 
-
     /**
      *
      * @return a List of projects that the account is participating in
@@ -71,19 +68,7 @@ public class AccountExtractor {
 
         List<String> accountPartakingProjectIDs = sourceAccount.getAllProjectsPartaking();
 
-        List<Project> allProjects = allCreatedProjects.getProjectsList();
-
-        List<Project> extractedProjects = new ArrayList<>();
-
-        for (String id : accountPartakingProjectIDs) {
-            for (Project p : allProjects) {
-                if (p.getProjectID().equals(id)) {
-                    extractedProjects.add(p);
-                }
-            }
-        }
-
-        return extractedProjects;
+        return getProjects(accountPartakingProjectIDs);
 
     }
 
@@ -95,13 +80,18 @@ public class AccountExtractor {
      */
     private List<Project> extractListOfCreatedProjectsFromAccount() {
 
-        List<String> accountCreatedProjectIDs = sourceAccount.getAllProjectsPartaking();
+        List<String> accountCreatedProjectIDs = sourceAccount.getAllProjectsCreated();
 
+        return getProjects(accountCreatedProjectIDs);
+
+    }
+
+    private List<Project> getProjects(List<String> enteredProjectIDs) {
         List<Project> allProjects = allCreatedProjects.getProjectsList();
 
         List<Project> extractedProjects = new ArrayList<>();
 
-        for (String id : accountCreatedProjectIDs) {
+        for (String id : enteredProjectIDs) {
             for (Project p : allProjects) {
                 if (p.getProjectID().equals(id)) {
                     extractedProjects.add(p);
@@ -110,7 +100,6 @@ public class AccountExtractor {
         }
 
         return extractedProjects;
-
     }
 
     /**

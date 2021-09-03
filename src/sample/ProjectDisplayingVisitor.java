@@ -39,7 +39,7 @@ public class ProjectDisplayingVisitor extends ClosableVisitor {
 
             //displayPane.getChildren().add(new Label("Testing"));
 
-            ProjectEditableInfoDisplay p = new ProjectEditableInfoDisplay(displayPane,  new ProjectViewState(account), projectToDisplay, "View Project");
+            ProjectEditableInfoDisplay p = new ProjectEditableInfoDisplay(displayPane,  new ProjectViewState(account), projectToDisplay, "View Project", account);
 
         }
 

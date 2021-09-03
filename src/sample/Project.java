@@ -211,6 +211,18 @@ public class Project {
         return ticketChosen;
     }
 
+    public boolean checkIfNameIsParticipantOfProject(String userName) {
+        boolean result = false;
+
+        for (Account a : developers) {
+            if (a.getUserName().equals(userName)) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
     public void printProjectInfo() {
 
             System.out.println();

@@ -38,21 +38,25 @@ public abstract class EditableInfoDisplay {
 
     private List<BorderPane> listOfBasicBorderPaneNodes;  // A list by which basic BorderPane Nodes can be stored to be placed on the grid
     
-    protected CentralViewState backPage; //A CentralViewState subclass page to go back to
+    protected CentralViewState backCentralViewStatePage; //A CentralViewState subclass page to go back to
+
+    protected Account userAccount; //The account the user is using
    
 
-    public EditableInfoDisplay(GridPane gridPaneToDisplayOn, CentralViewState statePageToGoBackTo, String title) {
+    public EditableInfoDisplay(GridPane gridPaneToDisplayOn, CentralViewState statePageToGoBackTo, String title, Account userAccount) {
 
         customiser = Customiser.getInstance();
+        this.userAccount = userAccount;
 
         titleLabel = new Label(title);
+        titleLabel.setPadding(new Insets(0,0,0,20));
         customiser.customiseListOfNodesToFont("FiraGo", 35, titleLabel);
 
         displayGridPane = gridPaneToDisplayOn;
 
 
 
-        backPage = statePageToGoBackTo;
+        backCentralViewStatePage = statePageToGoBackTo;
 
         backButton = new Button("Back");
         backButton.setOnAction(this::goBack);
@@ -78,11 +82,11 @@ public abstract class EditableInfoDisplay {
 
         displayGridPane.getChildren().clear();
 
-        backPage.setGridPane(displayGridPane);
+        backCentralViewStatePage.setGridPane(displayGridPane);
 
-        backPage.build();
+        backCentralViewStatePage.build();
 
-      //  displayGridPane.getChildren().add(backPage.getMainPane());
+      //  displayGridPane.getChildren().add(backCentralViewStatePage.getMainPane());
     }
 
     /**
@@ -118,10 +122,14 @@ public abstract class EditableInfoDisplay {
             //throw new ArithmeticException("both basic node lists must be equal to be displayed");
       //  } else {
 
-            centerGrid.setPadding(new Insets(50, 50, 50, 50));
-            centerGrid.setMinWidth(1000);
+           boolean isAdmin = userAccount instanceof AdministratorAccount;
 
-            int labelColumn = 0;  int infoLabelColumn = 20;
+           System.out.println(userAccount.getFirstName() + " Is admin: " + isAdmin);
+
+            centerGrid.setPadding(new Insets(50, 50, 50, 50));
+            centerGrid.setMinWidth(500);
+
+            int labelColumn = 0;  int infoLabelColumn = 10;
 
             int padding = 10;
 
@@ -134,9 +142,18 @@ public abstract class EditableInfoDisplay {
             }
 
             row = 0;
-            for (BorderPane bd : listOfBasicBorderPaneNodes) {
-                centerGrid.add(bd, infoLabelColumn, row);
-                row++;
+
+            if (isAdmin) {
+                for (BorderPane bd : listOfBasicBorderPaneNodes) {
+                    centerGrid.add(bd, infoLabelColumn, row);
+                    row++;
+                }
+
+            } else {
+                for (BorderPane bd : listOfBasicBorderPaneNodes) {
+                    centerGrid.add(bd.getCenter(), infoLabelColumn, row);
+                    row++;
+                }
             }
 
             for (Label l : listOfBasicLabelInfoNodes) {
