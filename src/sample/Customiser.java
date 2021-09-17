@@ -1,9 +1,6 @@
 package sample;
 
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
+import javafx.scene.control.*;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
@@ -152,10 +149,6 @@ public class Customiser {
             eLab.accept(eVisitor);
         }
     }
-
-
-
-
 
 
 }

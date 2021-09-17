@@ -1,6 +1,7 @@
 package sample;
 
-public class ClosableVisitor extends Visitor {
+public abstract class ClosableVisitor extends Visitor {
 
+    abstract protected void display();
 
 }

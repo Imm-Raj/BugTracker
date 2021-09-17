@@ -37,13 +37,13 @@ public abstract class EditableInfoDisplay {
     protected List<TextField> listOfBasicTextFieldNodes; // A list by which basic Label Nodes can be stored to be placed on the grid
 
     private List<BorderPane> listOfBasicBorderPaneNodes;  // A list by which basic BorderPane Nodes can be stored to be placed on the grid
-    
-    protected CentralViewState backCentralViewStatePage; //A CentralViewState subclass page to go back to
 
     protected Account userAccount; //The account the user is using
+
+    protected boolean isAccountAnEditor;
    
 
-    public EditableInfoDisplay(GridPane gridPaneToDisplayOn, CentralViewState statePageToGoBackTo, String title, Account userAccount) {
+    public EditableInfoDisplay(GridPane gridPaneToDisplayOn,  String title, Account userAccount) {
 
         customiser = Customiser.getInstance();
         this.userAccount = userAccount;
@@ -55,11 +55,8 @@ public abstract class EditableInfoDisplay {
         displayGridPane = gridPaneToDisplayOn;
 
 
-
-        backCentralViewStatePage = statePageToGoBackTo;
-
         backButton = new Button("Back");
-        backButton.setOnAction(this::goBack);
+
         customiser.addLabelledNodeToDefaultCustomisation(backButton);
 
        // displayGridPane.getChildren().add(backButton);
@@ -78,37 +75,29 @@ public abstract class EditableInfoDisplay {
 
     }
 
-    private void goBack(ActionEvent event) {
 
-        displayGridPane.getChildren().clear();
-
-        backCentralViewStatePage.setGridPane(displayGridPane);
-
-        backCentralViewStatePage.build();
-
-      //  displayGridPane.getChildren().add(backCentralViewStatePage.getMainPane());
-    }
 
     /**
      * Puts together the main structure of the editable page
      * To be called when all the basicInfoNodes have been added correctly
      */
     protected void buildEditableInfoDisplay() {
-       if (listOfBasicBorderPaneNodes.size() != 0 && listOfBasicLabelTitleNodes.size() != 0) {
+
+       //if (listOfBasicBorderPaneNodes.size() != 0 && listOfBasicLabelTitleNodes.size() != 0) {
 
            editableBorderPane.setTop(titleLabel);
 
-            editableBorderPane.setCenter(centerGrid);
-            editableBorderPane.setRight(backButton);
+           editableBorderPane.setCenter(centerGrid);
+           editableBorderPane.setRight(backButton);
 
-            displayGridPane.getChildren().add(editableBorderPane);
+           displayGridPane.getChildren().add(editableBorderPane);
 
-            buildCenterGridBasicInfoNodes();
+           buildCenterGridBasicInfoNodes();
 
 
-       } else {
-           throw new IllegalArgumentException("All basic nodes must be filled before building GUI");
-       }
+//       } else {
+//           throw new IllegalArgumentException("All basic nodes must be filled before building GUI");
+//       }
     }
 
     /**
@@ -143,18 +132,12 @@ public abstract class EditableInfoDisplay {
 
             row = 0;
 
-            if (isAdmin) {
-                for (BorderPane bd : listOfBasicBorderPaneNodes) {
-                    centerGrid.add(bd, infoLabelColumn, row);
-                    row++;
-                }
 
-            } else {
-                for (BorderPane bd : listOfBasicBorderPaneNodes) {
-                    centerGrid.add(bd.getCenter(), infoLabelColumn, row);
-                    row++;
-                }
+            for (BorderPane bd : listOfBasicBorderPaneNodes) {
+                centerGrid.add(bd, infoLabelColumn, row);
+                row++;
             }
+
 
             for (Label l : listOfBasicLabelInfoNodes) {
                 centerGrid.add(l, infoLabelColumn, row);

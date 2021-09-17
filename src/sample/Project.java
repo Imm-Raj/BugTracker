@@ -15,7 +15,7 @@ public class Project {
     private LocalDate dateClosed;
     private boolean isOpen;
     private Account createdBy;
-    private List<Account> developers;
+    private List<Account> participants;
 
     private List<Ticket> listOfTickets; // A collection of tickets that the project has
 
@@ -52,7 +52,7 @@ public class Project {
             projectID = "" + enteredProjectID;
             this.description = description;
             this.createdBy = createdBy;
-            developers = enteredDevelopers;
+            participants = enteredDevelopers;
 
             dateCreated = LocalDate.now();
 
@@ -60,7 +60,7 @@ public class Project {
 
             createdBy.addProjectIDToAllCreatedProjectsID(projectID);
 
-            for (Account a : developers) {
+            for (Account a : participants) {
                 a.addProjectIDtoPartakingProjects(projectID);
             }
 
@@ -95,8 +95,8 @@ public class Project {
         return projectID;
     }
 
-    public List<Account> getDevelopers() {
-        return developers;
+    public List<Account> getParticipants() {
+        return participants;
     }
 
     public boolean isOpen() {
@@ -126,7 +126,6 @@ public class Project {
      */
     public void createTicketForThisProject(String name, String description, int priority, int currentStatus, Account createdBy, List<Account> assignedTo)
             throws AllReadyExistsException, CreatorAccountNullException, EmptyAccountsListException {
-
 
         if (!checkForTicketsWithSameName(name)) {
 
@@ -214,7 +213,7 @@ public class Project {
     public boolean checkIfNameIsParticipantOfProject(String userName) {
         boolean result = false;
 
-        for (Account a : developers) {
+        for (Account a : participants) {
             if (a.getUserName().equals(userName)) {
                 result = true;
             }
@@ -234,6 +233,38 @@ public class Project {
     }
 
     /**
+     * Updates the project to new information entered by the user
+     * @param newProjectName
+     * @param newProjectDesc
+     * @param newParticipants
+     */
+    public void updateProjectInfo(String newProjectName, String newProjectDesc, List<Account> newParticipants) throws NullPointerException, IllegalArgumentException {
+
+        if (newProjectName == null || newProjectName.length() == 0) {
+            throw new NullPointerException("Project Name invalid");
+        } else if (newProjectDesc == null || newProjectDesc.length() == 0) {
+            throw new NullPointerException("Project Description invalid");
+        } else if (newParticipants == null || newParticipants.size() == 0) {
+            throw new IllegalArgumentException("Please select a participant");
+        } else {
+
+            for (Account a : participants) {
+                a.removePartakingProjectFromAccount(projectID);
+            }
+
+            name = newProjectName;
+            description = newProjectDesc;
+            participants = newParticipants;
+
+            //After participants field has been updated
+            //Add the project to the accounts of the new participants
+            for (Account a : participants) {
+                a.addProjectIDtoPartakingProjects(projectID);
+            }
+        }
+    }
+
+    /**
      * A testing method that returns a string
      * representing some information of the project
      * @return String
@@ -241,7 +272,7 @@ public class Project {
     public String getTicketsListString() {
         String ticketString = "";
         for (Ticket t : listOfTickets) {
-            ticketString+= ", " + t.getTicketId() +  "(STATUS: " + t.getCurrentStatus() + ")" + "(PRIORITY: " + t.getPriority() + ")";
+            ticketString+= ", " + t.getTicketId() +  "(STATUS: " + t.getStatus() + ")" + "(PRIORITY: " + t.getPriority() + ")";
         }
 
         return ticketString;
@@ -251,7 +282,7 @@ public class Project {
     /**
      * Closes the project by setting the isOpen flag
      * to false and setting the closing date.
-     * All developers that were partaking will
+     * All participants that were partaking will
      * have the project ID removed from their account
      * All tickets that were within the closed project will be closed as well
      */
@@ -260,7 +291,7 @@ public class Project {
         dateClosed = LocalDate.now();
         isOpen = false;
 
-        for (Account a : developers) {
+        for (Account a : participants) {
             a.removePartakingProjectFromAccount(projectID);
         }
 

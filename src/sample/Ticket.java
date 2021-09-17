@@ -12,11 +12,14 @@ public class Ticket {
     private List<Comment> comments;
     private List<Account> assignedTo;
     private int priority;
-    private int currentStatus;
+    private int status;
     private Project associatedProject;
     private Account createdBy;
     private LocalDate dateClosed;
     private boolean isOpen;
+
+    private boolean isComplete;
+    private String accountIDCompletedBy;
 
     private Priorities priorities;
     private Statuses statuses;
@@ -70,16 +73,17 @@ public class Ticket {
             this.description = description;
             this.priority = priority;
             this.associatedProject = associatedProject;
-            this.currentStatus = currentStatus;
+            this.status = currentStatus;
             this.assignedTo = assignedTo;
             dateCreated = LocalDate.now();
             this.createdBy = createdBy;
             isOpen = true;
+            isComplete = false;
 
             createdBy.addTicketIDtoAllCreatedTicketsID(ticketID);
 
             for (Account a : assignedTo) {
-                a.addTicketIDtoPartakingProjects(ticketID);
+                a.addTicketIDtoPartakingTickets(ticketID);
             }
 
         }
@@ -119,8 +123,8 @@ public class Ticket {
         return associatedProject;
     }
 
-    public int getCurrentStatus() {
-        return currentStatus;
+    public int getStatus() {
+        return status;
     }
 
     public LocalDate getDateClosed() {
@@ -129,6 +133,10 @@ public class Ticket {
 
     public boolean isOpen() {
         return isOpen;
+    }
+
+    public boolean isComplete() {
+        return isComplete;
     }
 
     public Account getCreatedBy() {
@@ -171,7 +179,7 @@ public class Ticket {
      */
     public void changeStatus(int newStatusVal) throws StatusNotFoundException {
         if (priorities.validatePriorityValue(newStatusVal)) {
-            currentStatus = newStatusVal;
+            status = newStatusVal;
         } else {
             throw new StatusNotFoundException(" " + newStatusVal);
         }
@@ -191,5 +199,61 @@ public class Ticket {
 
    }
 
+    /**
+     * Completes the ticket and adds info for whoever
+     * completed it to the fields of the ticket
+     * @param completedByAccountID
+     */
+   public void completeTicket(String completedByAccountID) {
+       isComplete = true;
+       accountIDCompletedBy = completedByAccountID;
+       close();
+   }
 
+
+    /**
+     * Checks if a given username is a participant of a ticket
+     * @param userName
+     * @return
+     */
+    public boolean checkIfNameIsParticipantOfTicket(String userName) {
+
+        boolean result = false;
+
+        for (Account a : assignedTo) {
+            if (a.getUserName().equals(userName)) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    public void updateTicketInfo(String newTicketName, String newTicketDescription, List<Account> newAssignedTo, double priorityDoubleVal, double statusDoubleVal) {
+
+        if (newTicketName == null || newTicketDescription.length() == 0) {
+            throw new NullPointerException("Project Name invalid");
+        } else if (newTicketDescription == null || newTicketDescription.length() == 0) {
+            throw new NullPointerException("Project Description invalid");
+        } else if (newAssignedTo == null || newAssignedTo.size() == 0) {
+            throw new IllegalArgumentException("Please select a participant");
+        } else {
+
+            for (Account a : assignedTo) {
+                a.removePartakingTicketFromAccount(ticketID);
+            }
+
+            name = newTicketName;
+            description = newTicketDescription;
+            assignedTo = newAssignedTo;
+            priority = (int) priorityDoubleVal;
+            status = (int) statusDoubleVal;
+
+            //After participants field has been updated
+            //Add the project to the accounts of the new participants
+            for (Account a : assignedTo) {
+                a.addTicketIDtoPartakingTickets(ticketID);
+            }
+        }
+    }
 }

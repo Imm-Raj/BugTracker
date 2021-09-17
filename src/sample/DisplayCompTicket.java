@@ -5,15 +5,16 @@ import javafx.geometry.NodeOrientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 public class DisplayCompTicket extends Closable {
 
     private Ticket containedTicket;
+
 
     private VBox leftVbox;
 
@@ -25,6 +26,8 @@ public class DisplayCompTicket extends Closable {
     private Label numberWorkingOnLabel;
     private Label priorityLabel;
     private Label statusLabel;
+    private Label assosciatedProjectLabel;
+
 
 
     private BorderPane rightPane;
@@ -32,6 +35,8 @@ public class DisplayCompTicket extends Closable {
     private Label idLabel;
 
     private Button openButton;
+
+    private TicketDisplayingVisitor visitor;
 
 
     public DisplayCompTicket(Ticket enteredTicket) {
@@ -67,19 +72,22 @@ public class DisplayCompTicket extends Closable {
         Priorities priorities = new Priorities();
         Statuses statuses = new Statuses();
 
-        nameLabel = new Label("Name: " + containedTicket.getName());
+        nameLabel = new Label(containedTicket.getName());
+        nameLabel.setFont(Font.font("FiraGo", FontWeight.BOLD , 16));
+
         createdByLabel = new Label("Created By: " + containedTicket.getCreatedBy().getFirstName() + " " +  containedTicket.getCreatedBy().getLastName());
         dateCreatedLabel = new Label("Date Created: " + containedTicket.getDateCreated().toString());
         numberWorkingOnLabel = new Label("Participants: " + containedTicket.getAssignedTo().size());
         priorityLabel = new Label("Priority: " + priorities.getPriorityInWordForm(containedTicket.getPriority()));
-        statusLabel = new Label("Status: " + statuses.getStatusInWordForm(containedTicket.getCurrentStatus()));
+        statusLabel = new Label("Status: " + statuses.getStatusInWordForm(containedTicket.getStatus()));
+        assosciatedProjectLabel = new Label("Project: " + containedTicket.getAssociatedProject().getName());
 
         idLabel = new Label("ID: " + containedTicket.getTicketId());
         idLabel.setFont(Font.font("Verdana", FontPosture.ITALIC, 18));
 
         idLabel.setTextFill(Color.GREY);
 
-        addAllLabeledNodestoLabeledList(createdByLabel, nameLabel, dateCreatedLabel, numberWorkingOnLabel, openButton, statusLabel, priorityLabel);
+        addAllLabeledNodestoLabeledList(createdByLabel, dateCreatedLabel, numberWorkingOnLabel, openButton, statusLabel, priorityLabel, assosciatedProjectLabel);
 
         updateFontOfLabeledNodes("FiraGo", 16);
 
@@ -90,7 +98,7 @@ public class DisplayCompTicket extends Closable {
 
         leftVbox.getChildren().addAll(nameLabel, numberWorkingOnLabel, statusLabel, priorityLabel);
 
-        rightVbox.getChildren().addAll(idLabel,createdByLabel, dateCreatedLabel);
+        rightVbox.getChildren().addAll(idLabel,createdByLabel, dateCreatedLabel, assosciatedProjectLabel);
 
         rightPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
@@ -116,6 +124,12 @@ public class DisplayCompTicket extends Closable {
 
     }
 
+    public void acceptTicketDisplayingVisitor(TicketDisplayingVisitor ticketDisplayingVisitor) {
+        visitor = ticketDisplayingVisitor;
+    }
+
     private void open(ActionEvent actionEvent) {
+        visitor.visitDisplayCompTicket(this);
+        visitor.display();
     }
 }

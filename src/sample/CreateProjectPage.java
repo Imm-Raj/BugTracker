@@ -26,7 +26,7 @@ public class CreateProjectPage {
     private Customiser customiser;
 
     private VBox rightVbox;
-    private VBox centerVBox;
+
 
     private List<CheckBox> listOfAllEmpBoxes;
 
@@ -219,8 +219,6 @@ public class CreateProjectPage {
         projectView.setGridPane(insideGridPane); //Current grid pane is passed in
 
         projectView.build(); //The project view page builds itself on the grid pane that has been passed in
-
-
 
        // insideGridPane.add(projectView.getMainPane(), 0,0);
 

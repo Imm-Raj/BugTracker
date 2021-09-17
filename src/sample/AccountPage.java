@@ -33,9 +33,9 @@ public class AccountPage {
     private VBox sideVBox;
 
     private Button dashBoardButton;
-    private Button viewTeamButton;
     private Button viewProjectsButton;
     private Button viewTicketsButton;
+    private Button viewTeamButton;
 
     private String fontToChoose;
 
@@ -109,7 +109,7 @@ public class AccountPage {
         buttonToViewState.put(dashBoardButton, new DashBoardViewState(userAccount));
         buttonToViewState.put(viewProjectsButton, new ProjectViewState(userAccount));
         buttonToViewState.put(viewTeamButton, new TeamViewState(userAccount));
-        buttonToViewState.put(viewTicketsButton, new TicketsViewState(userAccount));
+        buttonToViewState.put(viewTicketsButton, new TicketsViewState(userAccount, null));
     }
 
     /**
@@ -147,7 +147,7 @@ public class AccountPage {
     private void createGUIForBottomHBox() {
         ed = new ErrorDisplay();
 
-        ed.addError("Testing error");
+        ed.addError("Version 1.3.0");
 
         mainPane.setBottom(ed.getErrorPane());
     }
@@ -167,8 +167,8 @@ public class AccountPage {
         dashBoardButton.setPrefHeight(buttonHeight);
         dashBoardButton.setPrefWidth(buttonWidth);
 
-        dashBoardButton.setOnAction(e -> buildCentralView(dashBoardButton));
-
+        //dashBoardButton.setOnAction(e -> buildCentralView(dashBoardButton));
+        dashBoardButton.setOnAction(e -> userAccount.accountToString());
 
 
         viewProjectsButton = new Button("View Projects");
@@ -179,6 +179,14 @@ public class AccountPage {
         viewProjectsButton.setOnAction(e -> buildCentralView(viewProjectsButton));
 
 
+        viewTicketsButton = new Button("View Tickets");
+        viewTicketsButton.setFont(new Font(fontToChoose, 18));
+        viewTicketsButton.setPrefHeight(buttonHeight);
+        viewTicketsButton.setPrefWidth(buttonWidth);
+
+        viewTicketsButton.setOnAction(e -> buildCentralView(viewTicketsButton));
+
+
         viewTeamButton = new Button("View Team");
         viewTeamButton.setFont(new Font(fontToChoose, 18));
         viewTeamButton.setPrefHeight(buttonHeight);
@@ -187,14 +195,9 @@ public class AccountPage {
         viewTeamButton.setOnAction(e -> buildCentralView(viewTeamButton));
 
 
-        viewTicketsButton = new Button("View Tickets");
-        viewTicketsButton.setFont(new Font(fontToChoose, 18));
-        viewTicketsButton.setPrefHeight(buttonHeight);
-        viewTicketsButton.setPrefWidth(buttonWidth);
 
-        viewTicketsButton.setOnAction(e -> buildCentralView(viewTicketsButton));
 
-        sideVBox.getChildren().addAll(dashBoardButton, viewProjectsButton, viewTeamButton, viewTicketsButton);
+        sideVBox.getChildren().addAll(dashBoardButton, viewProjectsButton, viewTicketsButton, viewTeamButton);
     }
 
 

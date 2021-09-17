@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AllCreatedAccounts {
 
@@ -228,6 +229,18 @@ public class AllCreatedAccounts {
 
         return resultAccount;
     }
+
+    public List<Account> getListOfAccountsAccordingToEnteredListOfUserNames(List<String> listOfUserNames) throws AccountNotFoundException {
+        List<Account> allAccounts = new ArrayList<>();
+
+        for (String userName : listOfUserNames) {
+            allAccounts.add(findAccountUsingUserName(userName));
+        }
+
+        return allAccounts;
+    }
+
+
 
 
 }

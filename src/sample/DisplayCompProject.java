@@ -73,7 +73,7 @@ public class DisplayCompProject extends Closable {
         createdByLabel = new Label("Created By: " + containedProject.getCreatedBy().getFirstName() + " " +  containedProject.getCreatedBy().getLastName());
         createdByLabel.setPadding(new Insets(10,10,10,10));
 
-        noDevelopersLabel = new Label("Developers: " + containedProject.getDevelopers().size());
+        noDevelopersLabel = new Label("Developers: " + containedProject.getParticipants().size());
         noDevelopersLabel.setPadding(new Insets(10,10,10,10));
 
         noTicketsLabel = new Label("Active Tickets: "  + containedProject.getListOfTickets().stream().filter(

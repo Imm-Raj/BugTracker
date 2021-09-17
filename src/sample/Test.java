@@ -275,7 +275,7 @@ public class Test {
                     e.printStackTrace();
                 }
                 try {
-                    t.changeStatus(t.getCurrentStatus() + 1);
+                    t.changeStatus(t.getStatus() + 1);
                 } catch (StatusNotFoundException e) {
                     e.printStackTrace();
                 }

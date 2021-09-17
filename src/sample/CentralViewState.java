@@ -30,7 +30,7 @@ public abstract class CentralViewState {
     protected Customiser customiser;
 
 
-    public CentralViewState(Account enteredAccount) {
+    public CentralViewState(Account enteredAccount, GridPane customGridPane) {
 
         if (enteredAccount == null) {
             throw new NullPointerException("user Account is null within the central view" +
@@ -44,8 +44,11 @@ public abstract class CentralViewState {
 
 
       //  gridPane = new GridPane();
-
-        insideGridPane = new GridPane();
+        if (customGridPane == null) {
+            insideGridPane = new GridPane();
+        } else {
+            insideGridPane = customGridPane;
+        }
 
         insideGridPane.setVgap(10);
         insideGridPane.setHgap(10);

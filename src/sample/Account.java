@@ -207,7 +207,7 @@ public class Account {
      * Adds a ticket ID to the list of partaking ticket IDs
      * @param enteredTicketID
      */
-    public void addTicketIDtoPartakingProjects(String enteredTicketID) {
+    public void addTicketIDtoPartakingTickets(String enteredTicketID) {
         allTicketsPartaking.add(enteredTicketID);
     }
 
@@ -258,6 +258,7 @@ public class Account {
                 correctID = true;
             }
         }
+
 
         if (!correctID) {
             throw new IllegalArgumentException("ID of project to remove " + projectIDToRemove + " is not there");

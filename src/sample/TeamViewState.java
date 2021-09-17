@@ -3,7 +3,7 @@ package sample;
 public class TeamViewState  extends  CentralViewState{
 
     public TeamViewState(Account userAccount) {
-        super(userAccount);
+        super(userAccount, null);
     }
 
     @Override

@@ -97,6 +97,49 @@ public class Validator {
 
     }
 
+    /**
+     * Checks if any amount of comboboxes have selections in all of them
+     * @param comboBoxes
+     * @return
+     */
+    public boolean validateIfComboBoxesHaveAllHaveAselection(ComboBox<String>...comboBoxes) {
+
+        boolean result = true;
+
+        for (ComboBox<String> comboBox : comboBoxes) {
+            if (!checkIfComboBoxSelectionEqualsOneOfComboBoxValues(comboBox)) {
+                result = false;
+            }
+        }
+
+        if (result == false) {
+            errorDis.addError("Please make sure all selections are valid");
+        }
+
+        return result;
+    }
+
+    /**
+     * An auxiliary method that checks if a specific combobox has a selection
+     * @param comboBox
+     * @return
+     */
+    private boolean checkIfComboBoxSelectionEqualsOneOfComboBoxValues(ComboBox<String> comboBox) {
+        boolean result = false;
+
+        String chosenVal = comboBox.getValue();
+
+        List<String> allItems = comboBox.getItems();
+
+        for (String item : allItems) {
+            if (item.equals(chosenVal)) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
 
 
 

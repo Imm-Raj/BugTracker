@@ -9,7 +9,7 @@ public class DashBoardViewState extends CentralViewState{
 
 
     public DashBoardViewState(Account enteredAccount) {
-        super(enteredAccount);
+        super(enteredAccount, null);
     }
 
     @Override

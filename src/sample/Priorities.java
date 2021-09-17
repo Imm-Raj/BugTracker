@@ -2,9 +2,9 @@ package sample;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Priorities {
-
 
     private ArrayList<Integer> validPriorityValues;
 
@@ -14,6 +14,7 @@ public class Priorities {
 
     public Priorities() {
         intToPriorityMap = new HashMap<>();
+
 
         validPriorityValues = new ArrayList<>();
         validPriorityWords = new ArrayList<>();
@@ -32,10 +33,44 @@ public class Priorities {
         return intToPriorityMap;
     }
 
+    public int getMaxValueInteger() {
+        return intToPriorityMap.size() - 1;
+    }
+
+    public int getMinValueInteger() {
+        return 0;
+    }
+
     public String getPriorityInWordForm(int priorityValue) {
        return intToPriorityMap.get(priorityValue);
     }
 
+
+    /**
+     *
+     * @param wordValue
+     * @return A priority in integer form
+     * @throws NullPointerException if the value entered is not found
+     */
+    public int getPriorityInIntegerForm(String wordValue) throws NullPointerException {
+
+        int result = 0;
+        boolean found = false;
+
+       for (Map.Entry<Integer,String> entry : intToPriorityMap.entrySet()) {
+           if (entry.getValue().equals(wordValue)) {
+                result = entry.getKey();
+                found = true;
+           }
+       }
+
+       if (!found) {
+           throw new NullPointerException("Value not found");
+       }
+
+
+       return result;
+    }
 
     /**
      * A method that populates the hashmap of all priorities

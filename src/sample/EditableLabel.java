@@ -49,6 +49,10 @@ public class EditableLabel {
         return containerPane;
     }
 
+    public Label getInfoLabel() {
+        return infoLabel;
+    }
+
     /**
      * @return always returns current information
      */

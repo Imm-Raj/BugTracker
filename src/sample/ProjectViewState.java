@@ -26,7 +26,7 @@ public class ProjectViewState extends CentralViewState {
 
     public ProjectViewState(Account enteredAccount) {
 
-        super(enteredAccount);
+        super(enteredAccount, null);
 
 
         sideVBox = new VBox();
@@ -40,9 +40,9 @@ public class ProjectViewState extends CentralViewState {
 
         extractor = new AccountExtractor(account);
 
-        System.out.println("account is: " + account);
 
-        extractListOfDisplayProjectCompsAccountPartaking();
+
+
 
        // labeledNodeList.add(createNewProjectButton);
 
@@ -64,6 +64,8 @@ public class ProjectViewState extends CentralViewState {
 
     @Override
     public void build() {
+
+        extractListOfDisplayProjectCompsAccountPartaking();
 
         projectSearchableList = new SearchableList(listOfDisplayCompProjects, "projects", 800,500);
 

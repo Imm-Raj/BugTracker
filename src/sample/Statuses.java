@@ -2,6 +2,7 @@ package sample;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Statuses {
 
@@ -16,7 +17,16 @@ public class Statuses {
 
         validStatusValues = new ArrayList<>();
         validStatusWords = new ArrayList<>();
-        populateAllStatuses("Opened", "In Progress", "On Hold", "Nearly Complete", "Closed");
+        populateAllStatuses("Opened", "Beginning Progress", "Middle Progress", "On Hold", "Nearly Complete");
+    }
+
+
+    public int getMaxValueInteger() {
+        return intToStatusMap.size() - 1;
+    }
+
+    public int getMinValueInteger() {
+        return 0;
     }
 
     public ArrayList<Integer> getValidStatusValues() {
@@ -34,6 +44,34 @@ public class Statuses {
     public String getStatusInWordForm(int statusValue) {
         return intToStatusMap.get(statusValue);
     }
+
+    /**
+     *
+     * @param wordValue
+     * @return A status in integer form
+     * @throws NullPointerException if the value entered is not found
+     */
+    public int getStatusInIntegerForm(String wordValue) throws NullPointerException {
+
+        int result = 0;
+        boolean found = false;
+
+        for (Map.Entry<Integer,String> entry : intToStatusMap.entrySet()) {
+            if (entry.getValue().equals(wordValue)) {
+                result = entry.getKey();
+                found = true;
+            }
+        }
+
+        if (!found) {
+
+            throw new NullPointerException("Value not found");
+
+        }
+
+        return result;
+    }
+
 
     /**
      * A method that populates the hashmap of all statuses
